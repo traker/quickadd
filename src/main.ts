@@ -38,7 +38,17 @@ export default class QuickAdd extends Plugin {
 			this.settings = settings;
 			void this.saveSettings();
 		});
-
+		for (const choice of this.settings.choices) {
+	        if (choice.type === "Template") {
+	            this.addCommand({
+	                id: `choice:${choice.id}`,
+	                name: "Run QuickAdd " + choice.name,
+	                callback: async () => {
+	                    await new ChoiceExecutor(this.app, this).execute(choice);
+	                }
+	            })
+	        }
+    	};
 		this.addCommand({
 			id: "runQuickAdd",
 			name: "Run QuickAdd",
